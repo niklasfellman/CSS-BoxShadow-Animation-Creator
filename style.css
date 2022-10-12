@@ -1,0 +1,51 @@
+:root {
+	--box-shadow-variable : 0;
+	--current-color : #000;
+}
+
+*{
+	margin:0;
+	padding:0;
+}
+
+body{
+	background:#999;
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	height:99vh
+}
+
+.board{
+	width:500px;
+	height:500px;
+	background:white;
+	outline:1px solid red;
+}
+
+.measure{
+	display:none;
+	background:white;
+	width:100px;
+	height:50px;
+	position:fixed;
+}
+
+.test {
+	width:0px;
+	aspect-ratio:1;
+	box-shadow:var(--box-shadow-variable)
+}
+
+.settings {
+	outline:1px solid lime;
+
+}
+
+.current-color{
+	border:10px solid white;
+	width:100px;
+
+	height:25px;
+	background:var(--current-color);
+}
