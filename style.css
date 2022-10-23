@@ -20,7 +20,7 @@ body{
 	width:500px;
 	height:500px;
 	background:white;
-	outline:1px solid red;
+	border:5px solid black;
 }
 
 .measure{
@@ -34,18 +34,48 @@ body{
 .test {
 	width:0px;
 	aspect-ratio:1;
-	box-shadow:var(--box-shadow-variable)
+	box-shadow:var(--box-shadow-variable);
+	animation:testAnimation 500ms;
+}
+
+@keyframes testAnimation {
+	from {
+		transform:translate(0% 0%)		
+	}
+	
+	to {
+		transform:translate(100%)		
+	}
+
 }
 
 .settings {
-	outline:1px solid lime;
-
+	display:flex;
+	flex-direction:column;
+	justify-content:center;
+	align-items:flex-end;
+	padding:1rem;
+	background:white;
+	border:2px solid black;
 }
+
+
+
 
 .current-color{
 	border:10px solid white;
 	width:100px;
-
+	margin:1rem;
 	height:25px;
 	background:var(--current-color);
+}
+
+.hidden {
+	visibility:hidden;
+}
+
+.preview {
+	width:100px;
+	height:100px;
+	background:white;
 }

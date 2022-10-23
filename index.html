@@ -8,15 +8,18 @@
 	<div class="board">
 		<div class="test"></div>    
 	</div>
+
+	<div class="preview"></div>
 	<div class="settings">
 		<div class="current-color"></div>
-		<input type="range" min="1" max="255" value="20" id="hue">
-		<input type="range" min="0" max="100" value="80" id="saturation">
-		<input type="range" min="0" max="100" value="50" id="lightness">
-		<input type="range" min="0" max="100" value="100" id="alpha">
+		<label>Hue:<input type="range" min="1" max="255" value="20" id="hue"></label>
+		<label>Saturation:<input type="range" min="0" max="100" value="80" id="saturation"></label>
+		<label>Lightness:<input type="range" min="0" max="100" value="50" id="lightness"></label>
 
 		
-		<input type="range" min="5" max="100" value="40" id="size">
+		<label>Size:<input type="range" min="5" max="100" value="25" step="5" id="size"></label>
+
+		<label class="hidden">Alpha:<input type="range" min="0" max="100" value="100" id="alpha" class="hidden"></label>
 	</div>
 </body>
 </html>

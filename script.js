@@ -5,6 +5,10 @@ let saturationSlider = document.getElementById("saturation")
 let lightnessSlider = document.getElementById("lightness")
 let alphaSlider = document.getElementById("alpha")
 let brushSizeSlider = document.getElementById("size")
+let theElement = document.querySelector(".test")
+let styles = document.styleSheets[0].cssRules
+
+console.log(styles[6])
 
 
 let boardWidth = domBoard.clientWidth
@@ -35,6 +39,7 @@ domBoard.addEventListener("click",(x)=>{
 	boxShadowArr.unshift(createBoxShadowStr(cordinates.x,cordinates.y,cellSize,currentColor))		
 	//boxShadowArr.unshift(createBoxShadowStr(cordinates.x,cordinates.y,cellSize,currentColor))		
 	updateDomBoard(boxShadowArr.join(","))
+	console.dir(theElement)
 })
 
 
@@ -71,3 +76,6 @@ alphaSlider.addEventListener("input",(x)=>{
 brushSizeSlider.addEventListener("input",(x)=>{
 	cellSize = x.target.value	
 })
+
+
+console.log(theElement)
