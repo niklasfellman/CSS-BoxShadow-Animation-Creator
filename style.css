@@ -13,7 +13,7 @@ body{
 	display:flex;
 	align-items:center;
 	justify-content:center;
-	height:99vh
+	height:100vh;
 }
 
 .board{
@@ -23,44 +23,20 @@ body{
 	border:5px solid black;
 }
 
-.measure{
-	display:none;
-	background:white;
-	width:100px;
-	height:50px;
-	position:fixed;
-}
-
-.test {
+.the-shadow {
 	width:0px;
 	aspect-ratio:1;
 	box-shadow:var(--box-shadow-variable);
-	animation:testAnimation 500ms;
-}
-
-@keyframes testAnimation {
-	from {
-		transform:translate(0% 0%)		
-	}
-	
-	to {
-		transform:translate(100%)		
-	}
-
 }
 
 .settings {
 	display:flex;
 	flex-direction:column;
 	justify-content:center;
-	align-items:flex-end;
 	padding:1rem;
 	background:white;
 	border:2px solid black;
 }
-
-
-
 
 .current-color{
 	border:10px solid white;
@@ -78,4 +54,19 @@ body{
 	width:100px;
 	height:100px;
 	background:white;
+	border:1px solid black;
 }
+
+.preview .the-shadow {
+	width:100px;
+	background:orange;
+	transform:scale(0.2);
+	}
+
+#animation-preview {
+	width:100px;
+	height:100px;
+	animation-duration:1000ms;
+	animation-iteration-count:infinite;
+}
+

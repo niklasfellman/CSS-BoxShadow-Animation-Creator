@@ -5,24 +5,19 @@ let saturationSlider = document.getElementById("saturation")
 let lightnessSlider = document.getElementById("lightness")
 let alphaSlider = document.getElementById("alpha")
 let brushSizeSlider = document.getElementById("size")
-let theElement = document.querySelector(".test")
+let theElement = document.querySelector(".the-shadow")
 let styles = document.styleSheets[0].cssRules
-
-console.log(styles[6])
+let animationPreview = document.getElementById("animation-preview")
 
 
 let boardWidth = domBoard.clientWidth
 let cellSize = brushSizeSlider.value
 let currentColor = `hsla(${hueSlider.value},${saturationSlider.value}%,${lightnessSlider.value}%,${alphaSlider.value/100})`
 let boxShadowArr = []
+
 root.style.setProperty("--box-shadow-variable", boxShadowArr.join(","))
-
-
 root.style.setProperty("--current-color", currentColor)
 
-function updateCurrentColor(hue,saturation,lightness,alpha = 1){
-	return `hsla(${hue},${saturation}%,${lightness}%,${alpha})`
-}
 function updateDomBoard(str){
 root.style.setProperty("--box-shadow-variable", str)
 }
@@ -39,7 +34,8 @@ domBoard.addEventListener("click",(x)=>{
 	boxShadowArr.unshift(createBoxShadowStr(cordinates.x,cordinates.y,cellSize,currentColor))		
 	//boxShadowArr.unshift(createBoxShadowStr(cordinates.x,cordinates.y,cellSize,currentColor))		
 	updateDomBoard(boxShadowArr.join(","))
-	console.dir(theElement)
+	console.log(cordinates)
+
 })
 
 
@@ -55,6 +51,9 @@ domBoard.addEventListener("contextmenu",(x)=>{
 })
 
 
+function updateCurrentColor(hue,saturation,lightness,alpha = 1){
+	return `hsla(${hue},${saturation}%,${lightness}%,${alpha})`
+}
 
 hueSlider.addEventListener("input",(x)=>{
 	currentColor = updateCurrentColor(hueSlider.value,saturationSlider.value,lightnessSlider.value, alphaSlider.value/100) 
@@ -76,6 +75,32 @@ alphaSlider.addEventListener("input",(x)=>{
 brushSizeSlider.addEventListener("input",(x)=>{
 	cellSize = x.target.value	
 })
+//console.log(testar.cssRules[0].style.boxShadow = "100px 100px 100px 100px black")
 
 
-console.log(theElement)
+console.dir(animationPreview)
+
+let dynamicStyles = null;
+
+function addAnimation(body) {
+  if (!dynamicStyles) {
+    dynamicStyles = document.createElement('style');
+    dynamicStyles.type = 'text/css';
+    document.head.appendChild(dynamicStyles);
+  }
+  dynamicStyles.sheet.insertRule(body, dynamicStyles.length);
+}
+
+addAnimation(`
+      @keyframes boxShadowAnimation { 
+         0% {
+		background:red;
+         }
+        100% {
+		background:green;
+        }
+      }
+    `);
+
+animationPreview.style.animationName = "boxShadowAnimation"
+console.dir(dynamicStyles)
