@@ -34,14 +34,11 @@ domBoard.addEventListener("click",(x)=>{
 	boxShadowArr.unshift(createBoxShadowStr(cordinates.x,cordinates.y,cellSize,currentColor))		
 	//boxShadowArr.unshift(createBoxShadowStr(cordinates.x,cordinates.y,cellSize,currentColor))		
 	updateDomBoard(boxShadowArr.join(","))
-	console.log(cordinates)
-
 })
 
 
 domBoard.addEventListener("contextmenu",(x)=>{
 	x.preventDefault();
-	console.log(x)
 	let cordinates = {
 		"x" : Math.floor(x.offsetX/cellSize) * cellSize + cellSize/2,
 		"y" : Math.floor(x.offsetY/cellSize) * cellSize + cellSize/2
@@ -104,3 +101,55 @@ addAnimation(`
 
 animationPreview.style.animationName = "boxShadowAnimation"
 console.dir(dynamicStyles)
+
+function createKeyFrames(frames){
+	let length = frames.length
+	let strArr = [`0%{box-shadow:${frames[0]}}`]
+	console.log(strArr)
+	let result = `@keyframes boxShadowAnimation {`
+	result += strArr[0]
+	if(length < 2){
+		strArr.push(`100%{box-shadow:${frames[0]}}}`)
+		for(let i = 1;i<frames.length;i++){
+			result += frames[i]
+		}	
+		return result
+	}
+	let increment = Math.floor(100/length)
+	let currentNum = increment
+	console.log(increment)
+	for(let i = 1;i<frames.length;i++){
+		result += `${currentNum}%{box-shadow:${frames[i]}}`
+		currentNum += increment	
+	}
+	result += `100%{box-shadow:${frames[0]}}}`
+	return result
+}
+
+let framesArr = []
+function addFrame(){
+	framesArr.push(boxShadowArr.join(","))
+	//console.log(framesArr)
+	boxShadowArr = []
+	updateDomBoard(boxShadowArr.join(","))
+
+	dynamicStyles.sheet.deleteRule(0)
+/*
+addAnimation(`
+      @keyframes boxShadowAnimation { 
+         0% {
+		box-shadow:${framesArr[0]}
+         }
+
+
+        50% {
+		box-shadow:${framesArr[framesArr.length-1]}
+        }
+      }
+    `);
+*/
+
+addAnimation(createKeyFrames(framesArr))
+
+//console.dir(dynamicStyles)
+}
