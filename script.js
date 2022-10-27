@@ -9,11 +9,11 @@ let theElement = document.querySelector(".the-shadow")
 let styles = document.styleSheets[0].cssRules
 let animationPreview = document.getElementById("animation-preview")
 
-
 let boardWidth = domBoard.clientWidth
 let cellSize = brushSizeSlider.value
 let currentColor = `hsla(${hueSlider.value},${saturationSlider.value}%,${lightnessSlider.value}%,${alphaSlider.value/100})`
 let boxShadowArr = []
+let cellsUsed = {}
 
 root.style.setProperty("--box-shadow-variable", boxShadowArr.join(","))
 root.style.setProperty("--current-color", currentColor)
@@ -30,10 +30,12 @@ domBoard.addEventListener("click",(x)=>{
 		"x" : Math.floor(x.offsetX/cellSize) * cellSize + cellSize/2,
 		"y" : Math.floor(x.offsetY/cellSize) * cellSize + cellSize/2
 	}	
-// = = = = = > Using unshift here to be able to draw infront of already colored cells, should fix < = = = = 
-	boxShadowArr.unshift(createBoxShadowStr(cordinates.x,cordinates.y,cellSize,currentColor))		
-	//boxShadowArr.unshift(createBoxShadowStr(cordinates.x,cordinates.y,cellSize,currentColor))		
+	cellsUsed[`${cordinates.x}-${cordinates.y}`] = createBoxShadowStr(cordinates.x,cordinates.y,cellSize,currentColor)
+	for(let x in cellsUsed){
+		boxShadowArr.push(cellsUsed[x])
+	}
 	updateDomBoard(boxShadowArr.join(","))
+	boxShadowArr = []
 })
 
 
@@ -43,8 +45,12 @@ domBoard.addEventListener("contextmenu",(x)=>{
 		"x" : Math.floor(x.offsetX/cellSize) * cellSize + cellSize/2,
 		"y" : Math.floor(x.offsetY/cellSize) * cellSize + cellSize/2
 	}	
-	boxShadowArr.unshift(createBoxShadowStr(cordinates.x,cordinates.y,cellSize,"#fff"))		
+	cellsUsed[`${cordinates.x}-${cordinates.y}`] = createBoxShadowStr(cordinates.x,cordinates.y,cellSize,"white")
+	for(let x in cellsUsed){
+		boxShadowArr.push(cellsUsed[x])
+	}
 	updateDomBoard(boxShadowArr.join(","))
+	boxShadowArr = []
 })
 
 
@@ -72,10 +78,6 @@ alphaSlider.addEventListener("input",(x)=>{
 brushSizeSlider.addEventListener("input",(x)=>{
 	cellSize = x.target.value	
 })
-//console.log(testar.cssRules[0].style.boxShadow = "100px 100px 100px 100px black")
-
-
-console.dir(animationPreview)
 
 let dynamicStyles = null;
 
@@ -88,16 +90,7 @@ function addAnimation(body) {
   dynamicStyles.sheet.insertRule(body, dynamicStyles.length);
 }
 
-addAnimation(`
-      @keyframes boxShadowAnimation { 
-         0% {
-		background:red;
-         }
-        100% {
-		background:green;
-        }
-      }
-    `);
+addAnimation(` @keyframes boxShadowAnimation { `);
 
 animationPreview.style.animationName = "boxShadowAnimation"
 console.dir(dynamicStyles)
@@ -128,28 +121,12 @@ function createKeyFrames(frames){
 
 let framesArr = []
 function addFrame(){
+	for(let x in cellsUsed){
+		boxShadowArr.push(cellsUsed[x])
+	}
 	framesArr.push(boxShadowArr.join(","))
-	//console.log(framesArr)
 	boxShadowArr = []
-	updateDomBoard(boxShadowArr.join(","))
-
+	console.log(framesArr)
 	dynamicStyles.sheet.deleteRule(0)
-/*
-addAnimation(`
-      @keyframes boxShadowAnimation { 
-         0% {
-		box-shadow:${framesArr[0]}
-         }
-
-
-        50% {
-		box-shadow:${framesArr[framesArr.length-1]}
-        }
-      }
-    `);
-*/
-
 addAnimation(createKeyFrames(framesArr))
-
-//console.dir(dynamicStyles)
 }
