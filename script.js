@@ -8,6 +8,8 @@ let brushSizeSlider = document.getElementById("size")
 let theElement = document.querySelector(".the-shadow")
 let styles = document.styleSheets[0].cssRules
 let animationPreview = document.getElementById("animation-preview")
+let theBrush = document.querySelector(".brush")
+
 
 let boardWidth = domBoard.clientWidth
 let cellSize = brushSizeSlider.value
@@ -25,25 +27,36 @@ function createBoxShadowStr(x,y,size,color = "orange"){
 return `${x}px ${y}px 0 ${size/2}px ${color}`
 }
 
+let cordinates = {
+	"x" : 0,
+	"y" : 0
+}	
 domBoard.addEventListener("click",(x)=>{
-	let cordinates = {
-		"x" : Math.floor(x.offsetX/cellSize) * cellSize + cellSize/2,
-		"y" : Math.floor(x.offsetY/cellSize) * cellSize + cellSize/2
-	}	
-	cellsUsed[`${cordinates.x}-${cordinates.y}`] = createBoxShadowStr(cordinates.x,cordinates.y,cellSize,currentColor)
+	console.dir(x)
+	console.dir(x.target.parentElement)
+	//let cordinates = {
+		//"x" : Math.floor(x.offsetX/cellSize) * cellSize + cellSize/2,
+		//"y" : Math.floor(x.offsetY/cellSize) * cellSize + cellSize/2
+	//	"x" : Math.floor(x.target.parentElement.offsetLeft/cellSize) * cellSize + cellSize/2,
+	//	"y" : Math.floor(x.target.parentElement.offsetTop/cellSize) * cellSize + cellSize/2
+	//}	
+	cellsUsed[`${cordinates.x + cellSize/2}-${cordinates.y + cellSize/2}`] = createBoxShadowStr(cordinates.x + cellSize/2,cordinates.y + cellSize/2,cellSize,currentColor)
 	for(let x in cellsUsed){
 		boxShadowArr.push(cellsUsed[x])
 	}
 	updateDomBoard(boxShadowArr.join(","))
 	boxShadowArr = []
+	console.log(cordinates)
 })
 
 
 domBoard.addEventListener("contextmenu",(x)=>{
 	x.preventDefault();
+
+
 	let cordinates = {
-		"x" : Math.floor(x.offsetX/cellSize) * cellSize + cellSize/2,
-		"y" : Math.floor(x.offsetY/cellSize) * cellSize + cellSize/2
+		"x" : Math.floor(x.target.parentElement.offsetLeft/cellSize) * cellSize + cellSize/2,
+		"y" : Math.floor(x.target.parentElement.offsetTop/cellSize) * cellSize + cellSize/2
 	}	
 	cellsUsed[`${cordinates.x}-${cordinates.y}`] = createBoxShadowStr(cordinates.x,cordinates.y,cellSize,"white")
 	for(let x in cellsUsed){
@@ -51,6 +64,18 @@ domBoard.addEventListener("contextmenu",(x)=>{
 	}
 	updateDomBoard(boxShadowArr.join(","))
 	boxShadowArr = []
+})
+
+domBoard.addEventListener("mousemove", (x)=>{
+if(x.target.classList != "board"){return}
+	cordinates.x = Math.floor(x.offsetX/cellSize) * cellSize
+	cordinates.y = Math.floor(x.offsetY/cellSize) * cellSize
+
+	theBrush.style.height = cellSize
+	theBrush.style.width = cellSize
+	theBrush.style.left = `${cordinates.x}`
+	theBrush.style.top = `${cordinates.y}`
+
 })
 
 
