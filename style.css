@@ -8,7 +8,7 @@
 	padding:0;
 }
 
-body{
+body {
 	background:#111;
 	display:flex;
 	align-items:center;
@@ -16,12 +16,12 @@ body{
 	height:100vh;
 }
 
-.board{
+.board {
 	width:500px;
 	height:500px;
 	background:white;
-overflow:hidden;
-	border:5px solid black;
+	overflow:hidden;
+	border:10px solid gray;
 	position:relative;
 	cursor:none;
 }
@@ -33,7 +33,7 @@ overflow:hidden;
 }
 
 .settings {
-
+	margin:1rem;
 	padding:1rem 2rem;
 	display:flex;
 	flex-direction:column;
@@ -43,7 +43,7 @@ overflow:hidden;
 	border:2px solid black;
 }
 
-.current-color{
+.current-color {
 	border:10px solid white;
 	width:100px;
 	margin:1rem;
@@ -60,18 +60,17 @@ overflow:hidden;
 	height:100px;
 	background:white;
 	border:1px solid black;
-overflow:hidden;
+	overflow:hidden;
 }
 
 .preview .the-shadow {
 	transform:scale(0.2);
-	}
+}
 
 #animation-preview {
 	animation-duration:1000ms;
 	animation-iteration-count:infinite;
 	animation-timing-function: step-start;
-
 }
 
 .brush {
@@ -81,13 +80,18 @@ overflow:hidden;
 	height:25px;
 	outline:1px solid #888;
 	outline-offset:-1px;
-
 	position:absolute;
 }
+
 .sliders {
 	display:flex;
 	flex-direction:column;
 	align-items:end;
+}
+
+label {
+	margin:0 0 1rem 0 ;
+	display:flex;
 }
 
 .add-frame {
@@ -95,4 +99,9 @@ overflow:hidden;
 	background:white;
 	border:2px solid black;
 	margin:10px;
+}
+
+.slider-num {
+	padding:0 5px;
+	width:25px;
 }

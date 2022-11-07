@@ -9,13 +9,23 @@ let theElement = document.querySelector(".the-shadow")
 let styles = document.styleSheets[0].cssRules
 let animationPreview = document.getElementById("animation-preview")
 let theBrush = document.querySelector(".brush")
-
+let hueNumber = document.getElementById("hueNumber")
+let saturationNumber = document.getElementById("saturationNumber")
+let lightnessNumber = document.getElementById("lightnessNumber")
 
 let boardWidth = domBoard.clientWidth
 let cellSize = brushSizeSlider.value
 let currentColor = `hsla(${hueSlider.value},${saturationSlider.value}%,${lightnessSlider.value}%,${alphaSlider.value/100})`
 let boxShadowArr = []
 let cellsUsed = {}
+
+hueNumber.innerText = hueSlider.value
+lightnessNumber.innerText = lightnessSlider.value
+saturationNumber.innerText = saturationSlider.value
+
+
+theBrush.style.height = cellSize
+theBrush.style.width = cellSize
 
 root.style.setProperty("--box-shadow-variable", boxShadowArr.join(","))
 root.style.setProperty("--current-color", currentColor)
@@ -32,33 +42,18 @@ let cordinates = {
 	"y" : 0
 }	
 domBoard.addEventListener("click",(x)=>{
-	console.dir(x)
-	console.dir(x.target.parentElement)
-	//let cordinates = {
-		//"x" : Math.floor(x.offsetX/cellSize) * cellSize + cellSize/2,
-		//"y" : Math.floor(x.offsetY/cellSize) * cellSize + cellSize/2
-	//	"x" : Math.floor(x.target.parentElement.offsetLeft/cellSize) * cellSize + cellSize/2,
-	//	"y" : Math.floor(x.target.parentElement.offsetTop/cellSize) * cellSize + cellSize/2
-	//}	
 	cellsUsed[`${cordinates.x + cellSize/2}-${cordinates.y + cellSize/2}`] = createBoxShadowStr(cordinates.x + cellSize/2,cordinates.y + cellSize/2,cellSize,currentColor)
 	for(let x in cellsUsed){
 		boxShadowArr.push(cellsUsed[x])
 	}
 	updateDomBoard(boxShadowArr.join(","))
 	boxShadowArr = []
-	console.log(cordinates)
 })
 
 
 domBoard.addEventListener("contextmenu",(x)=>{
 	x.preventDefault();
-
-
-	let cordinates = {
-		"x" : Math.floor(x.target.parentElement.offsetLeft/cellSize) * cellSize + cellSize/2,
-		"y" : Math.floor(x.target.parentElement.offsetTop/cellSize) * cellSize + cellSize/2
-	}	
-	cellsUsed[`${cordinates.x}-${cordinates.y}`] = createBoxShadowStr(cordinates.x,cordinates.y,cellSize,"white")
+	cellsUsed[`${cordinates.x + cellSize/2}-${cordinates.y + cellSize/2}`] = createBoxShadowStr(cordinates.x + cellSize/2,cordinates.y + cellSize/2,cellSize,"white")
 	for(let x in cellsUsed){
 		boxShadowArr.push(cellsUsed[x])
 	}
@@ -70,12 +65,8 @@ domBoard.addEventListener("mousemove", (x)=>{
 if(x.target.classList != "board"){return}
 	cordinates.x = Math.floor(x.offsetX/cellSize) * cellSize
 	cordinates.y = Math.floor(x.offsetY/cellSize) * cellSize
-
-	theBrush.style.height = cellSize
-	theBrush.style.width = cellSize
 	theBrush.style.left = `${cordinates.x}`
 	theBrush.style.top = `${cordinates.y}`
-
 })
 
 
@@ -85,14 +76,17 @@ function updateCurrentColor(hue,saturation,lightness,alpha = 1){
 
 hueSlider.addEventListener("input",(x)=>{
 	currentColor = updateCurrentColor(hueSlider.value,saturationSlider.value,lightnessSlider.value, alphaSlider.value/100) 
+	hueNumber.innerText = hueSlider.value
 	root.style.setProperty("--current-color", currentColor)
 })
 saturationSlider.addEventListener("input",(x)=>{
 	currentColor = updateCurrentColor(hueSlider.value,saturationSlider.value,lightnessSlider.value, alphaSlider.value/100) 
+	saturationNumber.innerText = saturationSlider.value
 	root.style.setProperty("--current-color", currentColor)
 })
 lightnessSlider.addEventListener("input",(x)=>{
 	currentColor = updateCurrentColor(hueSlider.value,saturationSlider.value,lightnessSlider.value, alphaSlider.value/100) 
+	lightnessNumber.innerText = lightnessSlider.value
 	root.style.setProperty("--current-color", currentColor)
 })
 
@@ -102,6 +96,8 @@ alphaSlider.addEventListener("input",(x)=>{
 })
 brushSizeSlider.addEventListener("input",(x)=>{
 	cellSize = x.target.value	
+theBrush.style.height = cellSize
+theBrush.style.width = cellSize
 })
 
 let dynamicStyles = null;
